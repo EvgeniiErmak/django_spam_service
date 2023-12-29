@@ -4,7 +4,10 @@
   <h2>Mailing Lists</h2>
   <ul>
     {% for mailing_list in mailing_lists %}
-      <li><a href="{% url 'mailing_list_detail' mailing_list.id %}">{{ mailing_list }}</a></li>
+      <li>
+        <a href="{% url 'mailing_list_detail' mailing_list.id %}">{{ mailing_list }}</a>
+        (<a href="{% url 'mailing_list_update' mailing_list.id %}">Update</a>)
+      </li>
     {% endfor %}
   </ul>
   <a href="{% url 'mailing_list_create' %}">Create Mailing List</a>

@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'mailing_service.apps.MailingServiceConfig',
+    'mailing_service',
     'django_apscheduler',
 ]
 
@@ -141,6 +141,11 @@ SCHEDULER_JOB_DEFAULTS = {
 
 SCHEDULER_API_ENABLED = True
 
+
+# Добавляем конфигурацию для django_apscheduler
+SCHEDULER_CONFIG = {
+    'apscheduler.timezone': 'UTC',
+}
 
 # Настройки для отправки электронной почты
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
