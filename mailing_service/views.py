@@ -3,7 +3,7 @@ from django.views import View
 from django_apscheduler.models import DjangoJob, DjangoJobExecution
 from django_apscheduler.jobstores import DjangoJobStore, register_events, register_job
 from apscheduler.schedulers.background import BackgroundScheduler
-from .models import Client, MailingList
+from .models import Client, MailingList, Log  # Добавлен импорт Log
 from .forms import ClientForm, MailingListForm
 
 scheduler = BackgroundScheduler()
@@ -83,3 +83,9 @@ class MailingListUpdateView(View):
             form.save()
             return redirect('mailing_list_list')
         return render(request, 'mailing_service/mailing_list_form.html', {'form': form})
+
+
+class LogListView(View):
+    def get(self, request):
+        logs = Log.objects.all()
+        return render(request, 'mailing_service/log_list.html', {'logs': logs})
