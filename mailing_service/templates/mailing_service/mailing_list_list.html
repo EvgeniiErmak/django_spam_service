@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block content %}
+  <h2>Mailing Lists</h2>
+  <ul>
+    {% for mailing_list in mailing_lists %}
+      <li><a href="{% url 'mailing_list_detail' mailing_list.id %}">{{ mailing_list }}</a></li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'mailing_list_create' %}">Create Mailing List</a>
+{% endblock %}

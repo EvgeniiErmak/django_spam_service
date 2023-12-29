@@ -140,3 +140,12 @@ SCHEDULER_JOB_DEFAULTS = {
 }
 
 SCHEDULER_API_ENABLED = True
+
+
+# Настройки для отправки электронной почты
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'your_smtp_host'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'your_smtp_username'
+EMAIL_HOST_PASSWORD = 'your_smtp_password'

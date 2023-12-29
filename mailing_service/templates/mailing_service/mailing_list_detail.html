@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block content %}
+  <h2>Mailing List: {{ mailing_list }}</h2>
+  <p>Send Time: {{ mailing_list.send_time }}</p>
+  <p>Frequency: {{ mailing_list.frequency }}</p>
+  <p>Status: {{ mailing_list.status }}</p>
+  <a href="{% url 'mailing_list_update' mailing_list.id %}">Edit Mailing List</a>
+{% endblock %}
