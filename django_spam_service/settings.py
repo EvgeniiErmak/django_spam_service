@@ -131,3 +131,12 @@ STATICFILES_DIRS = (
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Настройки django-apscheduler
+SCHEDULER_JOB_DEFAULTS = {
+    'coalesce': False,
+    'max_instances': 3,
+}
+
+SCHEDULER_API_ENABLED = True
