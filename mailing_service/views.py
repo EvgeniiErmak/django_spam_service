@@ -3,7 +3,7 @@ from django.views import View
 from django_apscheduler.models import DjangoJob, DjangoJobExecution
 from django_apscheduler.jobstores import DjangoJobStore, register_events, register_job
 from apscheduler.schedulers.background import BackgroundScheduler
-from .models import Client, MailingList, Log  # Добавлен импорт Log
+from .models import Client, MailingList, Log
 from .forms import ClientForm, MailingListForm
 
 scheduler = BackgroundScheduler()
