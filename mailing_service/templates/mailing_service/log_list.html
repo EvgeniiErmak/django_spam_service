@@ -1,14 +1,11 @@
-<!-- log.html -->
-
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Logs</h2>
+  <h2>Список логов</h2>
   <ul>
     {% for log in logs %}
-      <li>{{ log.timestamp }} - {{ log.message }}</li>
+      <li>{{ log.attempt_time }} - {{ log.status }}</li>
     {% endfor %}
   </ul>
+  <a href="{% url 'home' %}">На главную</a>
 {% endblock %}
-
-

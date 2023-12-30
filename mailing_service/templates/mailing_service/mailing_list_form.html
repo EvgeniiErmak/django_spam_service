@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Create/Edit Mailing List</h2>
-  <form method="post" action="">
+  <h2>Форма рассылки</h2>
+  <form method="post" action="{% if mailing_list.id %}{% url 'mailing_list_update' mailing_list.id %}{% else %}{% url 'mailing_list_create' %}{% endif %}">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Save</button>
+    <button type="submit">Сохранить</button>
   </form>
-  <a href="{% url 'mailing_list_list' %}">Back to Mailing Lists</a>
+  <a href="{% url 'mailing_list_list' %}">Отмена</a>
 {% endblock %}

@@ -1,9 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Mailing List: {{ mailing_list }}</h2>
-  <p>Send Time: {{ mailing_list.send_time }}</p>
-  <p>Frequency: {{ mailing_list.frequency }}</p>
-  <p>Status: {{ mailing_list.status }}</p>
-  <a href="{% url 'mailing_list_update' mailing_list.id %}">Edit Mailing List</a>
+  <h2>Детали рассылки</h2>
+  <p>ID: {{ mailing_list.id }}</p>
+  <p>Время отправки: {{ mailing_list.send_time }}</p>
+  <p>Частота: {{ mailing_list.frequency }}</p>
+  <p>Статус: {{ mailing_list.status }}</p>
+  <h3>Список клиентов:</h3>
+  <ul>
+    {% for client in mailing_list.clients.all %}
+      <li>{{ client.full_name }} - {{ client.email }}</li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'mailing_list_list' %}">Назад к списку рассылок</a>
 {% endblock %}
