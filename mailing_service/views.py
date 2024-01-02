@@ -46,6 +46,17 @@ class ClientUpdateView(View):
         return render(request, 'mailing_service/client_form.html', {'form': form})
 
 
+class ClientDeleteView(View):
+    def get(self, request, client_id):
+        client = get_object_or_404(Client, id=client_id)
+        return render(request, 'mailing_service/client_confirm_delete.html', {'client': client})
+
+    def post(self, request, client_id):
+        client = get_object_or_404(Client, id=client_id)
+        client.delete()
+        return redirect('client_list')
+
+
 class MailingListListView(View):
     def get(self, request):
         mailing_lists = MailingList.objects.all()

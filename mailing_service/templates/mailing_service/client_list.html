@@ -1,11 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Список клиентов</h2>
+  <h2>Список Клиентов</h2>
   <ul>
     {% for client in clients %}
-      <li>{{ client.full_name }} - {{ client.email }}</li>
+      <li>
+        <strong>ФИО:</strong> {{ client.full_name }}<br>
+        <strong>Email:</strong> {{ client.email }}<br>
+        <strong>Комментарий:</strong> {{ client.comment }}<br>
+        <a href="{% url 'client_update' client.id %}">Редактировать</a>
+        <a href="{% url 'client_delete' client.id %}">Удалить</a>
+      </li>
     {% endfor %}
   </ul>
-  <a href="{% url 'client_create' %}">Добавить клиента</a>
+  <li class="list-inline-item"><a class="p-2 btn btn-outline-primary" href="{% url 'client_create' %}">Добавить клиента</a></li>
 {% endblock %}

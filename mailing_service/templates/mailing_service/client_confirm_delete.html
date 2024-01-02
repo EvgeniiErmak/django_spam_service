@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Подтверждение удаления клиента</h2>
+  <p>Вы уверены, что хотите удалить клиента:  </p>
+  <strong>{{ client.full_name }}</strong> <br>
+  <strong>{{ client.email }}</strong> <br>
+
+  <form method="post" action="{% url 'client_delete' client.id %}">
+    {% csrf_token %}
+    <br>
+    <button type="submit">Да, удалить</button>
+    <a href="{% url 'client_list' %}">Отмена</a>
+  </form>
+{% endblock %}
