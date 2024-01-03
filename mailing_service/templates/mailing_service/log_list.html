@@ -7,5 +7,5 @@
       <li>{{ log.attempt_time }} - {{ log.status }}</li>
     {% endfor %}
   </ul>
-  <a href="{% url 'home' %}">На главную</a>
+  <li class="list-inline-item"><a class="p-2 btn btn-outline-primary" href="{% url 'home' %}">На главную</a></li>
 {% endblock %}
