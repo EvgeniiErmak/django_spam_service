@@ -11,11 +11,11 @@
       <div class="input-group">
         <input type="datetime-local" name="send_time" id="id_send_time" class="form-control" value="{{ mailing_list.send_time|date:'Y-m-dTH:i' }}" required>
         <div class="input-group-append">
-          <button type="button" class="btn btn-secondary">Сохранить дату</button>
+          <button type="button" class="btn btn-secondary" id="saveDate">Сохранить дату</button>
         </div>
       </div>
     </div>
-  <br>
+    <br>
 
     <div class="form-group">
       <label for="id_frequency">Частота:</label>
@@ -25,7 +25,7 @@
         <option value="monthly" {% if mailing_list.frequency == 'monthly' %}selected{% endif %}>Ежемесячно</option>
       </select>
     </div>
-  <br>
+    <br>
 
     <div class="form-group">
       <label for="id_status">Статус:</label>
@@ -35,19 +35,19 @@
         <option value="completed" {% if mailing_list.status == 'completed' %}selected{% endif %}>Завершено</option>
       </select>
     </div>
-  <br>
+    <br>
 
     <div class="form-group">
       <label for="id_subject">Тема письма:</label>
       <input type="text" name="subject" id="id_subject" class="form-control" value="{{ mailing_list.message.subject }}" required>
     </div>
-  <br>
+    <br>
 
     <div class="form-group">
       <label for="id_body">Тело письма:</label>
       <textarea name="body" id="id_body" class="form-control" rows="4" required>{{ mailing_list.message.body }}</textarea>
     </div>
-  <br>
+    <br>
 
     <div class="form-group">
       <label for="id_clients">Выберите клиентов:</label>
@@ -57,9 +57,16 @@
         {% endfor %}
       </select>
     </div>
-  <br>
+    <br>
 
     <button type="submit" class="btn btn-primary">Сохранить</button>
     <a href="{% url 'mailing_list_list' %}" class="btn btn-secondary">Отмена</a>
   </form>
+
+  <script>
+    document.getElementById("saveDate").addEventListener("click", function() {
+      var dateInput = document.getElementById("id_send_time");
+      dateInput.value = new Date().toISOString().slice(0,16);
+    });
+  </script>
 {% endblock %}
