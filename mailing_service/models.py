@@ -15,6 +15,8 @@ class MailingList(models.Model):
     send_time = models.DateTimeField()
     frequency = models.CharField(max_length=20, choices=[('daily', 'Daily'), ('weekly', 'Weekly'), ('monthly', 'Monthly')])
     status = models.CharField(max_length=20, choices=[('created', 'Created'), ('started', 'Started'), ('completed', 'Completed')])
+    subject = models.CharField(max_length=255)  # Добавлено поле темы письма
+    body = models.TextField()  # Добавлено поле тела письма
 
     def __str__(self):
         return f'Mailing List {self.id}'

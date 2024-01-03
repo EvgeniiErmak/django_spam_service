@@ -66,19 +66,25 @@ class MailingListListView(View):
 class MailingListCreateView(View):
     def get(self, request):
         form = MailingListForm()
-        return render(request, 'mailing_service/mailing_list_form.html', {'form': form})
+        return render(request, 'mailing_service/mailing_list_form.html',
+                      {'form': form, 'clients': Client.objects.all()})
 
     def post(self, request):
         form = MailingListForm(request.POST)
         if form.is_valid():
-            mailing_list = form.save()
+            mailing_list = form.save(commit=False)
+            mailing_list.save()
+            form.save_m2m()  # Сохранение связей многие ко многим (клиентов)
+
             # Регистрируем задачу для отправки рассылки
             @register_job(scheduler, "interval", minutes=1, id=f"mailing_list_{mailing_list.id}")
             def send_scheduled_mailings():
                 # Реализуйте логику отправки рассылок по расписанию
                 pass
+
             return redirect('mailing_list_list')
-        return render(request, 'mailing_service/mailing_list_form.html', {'form': form})
+        return render(request, 'mailing_service/mailing_list_form.html',
+                      {'form': form, 'clients': Client.objects.all()})
 
 
 class MailingListUpdateView(View):

@@ -12,9 +12,19 @@ class ClientForm(forms.ModelForm):
 
 
 class MailingListForm(forms.ModelForm):
+    clients = forms.ModelMultipleChoiceField(
+        queryset=Client.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=True
+    )
+
     class Meta:
         model = MailingList
-        fields = ['clients', 'send_time', 'frequency', 'status']
+        fields = ['clients', 'send_time', 'frequency', 'status', 'subject', 'body']
         widgets = {
-            'clients': forms.CheckboxSelectMultiple(),
+            'send_time': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'frequency': forms.Select(attrs={'class': 'form-control'}),
+            'status': forms.Select(attrs={'class': 'form-control'}),
+            'subject': forms.TextInput(attrs={'class': 'form-control'}),
+            'body': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
         }
