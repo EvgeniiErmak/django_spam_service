@@ -67,12 +67,21 @@ class MailingListListView(View):
 class MailingListCreateView(View):
     template_name = 'mailing_service/mailing_list_form.html'
 
-    def get(self, request):
-        form = MailingListForm()
+    def get(self, request, mailing_list_id=None):
+        if mailing_list_id:
+            mailing_list = get_object_or_404(MailingList, id=mailing_list_id)
+            form = MailingListForm(instance=mailing_list)
+        else:
+            form = MailingListForm()
         return render(request, self.template_name, {'form': form, 'clients': Client.objects.all()})
 
-    def post(self, request):
-        form = MailingListForm(request.POST)
+    def post(self, request, mailing_list_id=None):
+        if mailing_list_id:
+            mailing_list = get_object_or_404(MailingList, id=mailing_list_id)
+            form = MailingListForm(request.POST, instance=mailing_list)
+        else:
+            form = MailingListForm(request.POST)
+
         if form.is_valid():
             mailing_list = form.save(commit=False)
             mailing_list.save()
