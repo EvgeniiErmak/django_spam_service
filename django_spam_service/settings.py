@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+from decouple import config
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -149,8 +150,8 @@ SCHEDULER_CONFIG = {
 
 # Настройки для отправки электронной почты
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'your_smtp_host'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'your_smtp_username'
-EMAIL_HOST_PASSWORD = 'your_smtp_password'
+EMAIL_HOST = 'smtp.gmail.com'  # SMTP-сервер Google
+EMAIL_PORT = 587  # Порт SMTP
+EMAIL_USE_TLS = True  # Использовать TLS
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')  # Ваша почта Gmail
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')  # Пароль вашей почты Gmail или пароль приложения

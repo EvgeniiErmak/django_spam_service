@@ -91,7 +91,7 @@ class MailingListUpdateView(View):
     def get(self, request, mailing_list_id):
         mailing_list = get_object_or_404(MailingList, id=mailing_list_id)
         form = MailingListForm(instance=mailing_list)
-        return render(request, 'mailing_service/mailing_list_form.html', {'form': form})
+        return render(request, 'mailing_service/mailing_list_form.html', {'form': form, 'mailing_list': mailing_list})
 
     def post(self, request, mailing_list_id):
         mailing_list = get_object_or_404(MailingList, id=mailing_list_id)
@@ -99,7 +99,23 @@ class MailingListUpdateView(View):
         if form.is_valid():
             form.save()
             return redirect('mailing_list_list')
-        return render(request, 'mailing_service/mailing_list_form.html', {'form': form})
+        return render(request, 'mailing_service/mailing_list_form.html', {'form': form, 'mailing_list': mailing_list})
+
+    def delete(self, request, mailing_list_id):
+        mailing_list = get_object_or_404(MailingList, id=mailing_list_id)
+        mailing_list.delete()
+        return redirect('mailing_list_list')
+
+
+class MailingListDeleteView(View):
+    def get(self, request, mailing_list_id):
+        mailing_list = get_object_or_404(MailingList, id=mailing_list_id)
+        return render(request, 'mailing_service/mailing_list_confirm_delete.html', {'mailing_list': mailing_list})
+
+    def post(self, request, mailing_list_id):
+        mailing_list = get_object_or_404(MailingList, id=mailing_list_id)
+        mailing_list.delete()
+        return redirect('mailing_list_list')
 
 
 class LogListView(View):

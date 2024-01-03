@@ -61,6 +61,9 @@
     <br>
 
     <button type="submit" class="btn btn-primary">Сохранить</button>
+    {% if mailing_list.id %}
+      <a href="{% url 'mailing_list_delete' mailing_list.id %}" class="btn btn-danger">Удалить</a>
+    {% endif %}
     <a href="{% url 'mailing_list_list' %}" class="btn btn-secondary">Отмена</a>
   </form>
 

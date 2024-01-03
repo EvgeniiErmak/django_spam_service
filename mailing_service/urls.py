@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import ClientListView, ClientCreateView, ClientUpdateView, ClientDeleteView, \
-    MailingListListView, MailingListCreateView, MailingListUpdateView, LogListView
+    MailingListListView, MailingListCreateView, MailingListUpdateView, MailingListDeleteView, LogListView
 
 urlpatterns = [
     path('clients/', ClientListView.as_view(), name='client_list'),
@@ -12,6 +12,7 @@ urlpatterns = [
     path('mailing-lists/create/', MailingListCreateView.as_view(), name='mailing_list_create'),
     path('mailing-lists/<int:mailing_list_id>/', MailingListUpdateView.as_view(), name='mailing_list_detail'),
     path('mailing-lists/<int:mailing_list_id>/update/', MailingListUpdateView.as_view(), name='mailing_list_update'),
+    path('mailing-lists/<int:mailing_list_id>/delete/', MailingListDeleteView.as_view(), name='mailing_list_delete'),
 
     # Добавлен новый URL-маршрут для домашней страницы
     path('', MailingListListView.as_view(), name='home'),
