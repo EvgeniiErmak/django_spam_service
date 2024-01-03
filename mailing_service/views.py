@@ -35,7 +35,7 @@ class ClientUpdateView(View):
     def get(self, request, client_id):
         client = get_object_or_404(Client, id=client_id)
         form = ClientForm(instance=client)
-        return render(request, 'mailing_service/client_form.html', {'form': form})
+        return render(request, 'mailing_service/client_form.html', {'form': form, 'client': client})
 
     def post(self, request, client_id):
         client = get_object_or_404(Client, id=client_id)
@@ -43,7 +43,7 @@ class ClientUpdateView(View):
         if form.is_valid():
             form.save()
             return redirect('client_list')
-        return render(request, 'mailing_service/client_form.html', {'form': form})
+        return render(request, 'mailing_service/client_form.html', {'form': form, 'client': client})
 
 
 class ClientDeleteView(View):
