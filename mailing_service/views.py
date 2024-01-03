@@ -1,10 +1,11 @@
+from django_apscheduler.jobstores import DjangoJobStore, register_events, register_job
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
-from django_apscheduler.models import DjangoJob, DjangoJobExecution
-from django_apscheduler.jobstores import DjangoJobStore, register_events, register_job
+from django_apscheduler.jobstores import DjangoJobStore, register_job
 from apscheduler.schedulers.background import BackgroundScheduler
 from .models import Client, MailingList, Log
 from .forms import ClientForm, MailingListForm
+from .utils import send_scheduled_mailings
 
 scheduler = BackgroundScheduler()
 scheduler.add_jobstore(DjangoJobStore(), "default")
@@ -64,27 +65,32 @@ class MailingListListView(View):
 
 
 class MailingListCreateView(View):
+    template_name = 'mailing_service/mailing_list_form.html'
+
     def get(self, request):
         form = MailingListForm()
-        return render(request, 'mailing_service/mailing_list_form.html',
-                      {'form': form, 'clients': Client.objects.all()})
+        return render(request, self.template_name, {'form': form, 'clients': Client.objects.all()})
 
     def post(self, request):
         form = MailingListForm(request.POST)
         if form.is_valid():
             mailing_list = form.save(commit=False)
             mailing_list.save()
-            form.save_m2m()  # Сохранение связей многие ко многим (клиентов)
+            form.save_m2m()
 
             # Регистрируем задачу для отправки рассылки
-            @register_job(scheduler, "interval", minutes=1, id=f"mailing_list_{mailing_list.id}")
-            def send_scheduled_mailings():
-                # Реализуйте логику отправки рассылок по расписанию
-                pass
+            register_job(
+                scheduler,
+                "interval",
+                minutes=1,
+                id=f"mailing_list_{mailing_list.id}",
+                replace_existing=True,
+                func=send_scheduled_mailings,
+                args=[mailing_list.id],
+            )
 
             return redirect('mailing_list_list')
-        return render(request, 'mailing_service/mailing_list_form.html',
-                      {'form': form, 'clients': Client.objects.all()})
+        return render(request, self.template_name, {'form': form, 'clients': Client.objects.all()})
 
 
 class MailingListUpdateView(View):
