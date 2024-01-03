@@ -2,10 +2,64 @@
 
 {% block content %}
   <h2>Форма рассылки</h2>
+
   <form method="post" action="{% if mailing_list.id %}{% url 'mailing_list_update' mailing_list.id %}{% else %}{% url 'mailing_list_create' %}{% endif %}">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Сохранить</button>
+
+    <div class="form-group">
+      <label for="id_send_time">Время отправки:</label>
+      <div class="input-group">
+        <input type="datetime-local" name="send_time" id="id_send_time" class="form-control" value="{{ mailing_list.send_time|date:'Y-m-dTH:i' }}" required>
+        <div class="input-group-append">
+          <button type="button" class="btn btn-secondary">Сохранить дату</button>
+        </div>
+      </div>
+    </div>
+  <br>
+
+    <div class="form-group">
+      <label for="id_frequency">Частота:</label>
+      <select name="frequency" id="id_frequency" class="form-control" required>
+        <option value="daily" {% if mailing_list.frequency == 'daily' %}selected{% endif %}>Ежедневно</option>
+        <option value="weekly" {% if mailing_list.frequency == 'weekly' %}selected{% endif %}>Еженедельно</option>
+        <option value="monthly" {% if mailing_list.frequency == 'monthly' %}selected{% endif %}>Ежемесячно</option>
+      </select>
+    </div>
+  <br>
+
+    <div class="form-group">
+      <label for="id_status">Статус:</label>
+      <select name="status" id="id_status" class="form-control" required>
+        <option value="created" {% if mailing_list.status == 'created' %}selected{% endif %}>Создано</option>
+        <option value="started" {% if mailing_list.status == 'started' %}selected{% endif %}>Запущено</option>
+        <option value="completed" {% if mailing_list.status == 'completed' %}selected{% endif %}>Завершено</option>
+      </select>
+    </div>
+  <br>
+
+    <div class="form-group">
+      <label for="id_subject">Тема письма:</label>
+      <input type="text" name="subject" id="id_subject" class="form-control" value="{{ mailing_list.message.subject }}" required>
+    </div>
+  <br>
+
+    <div class="form-group">
+      <label for="id_body">Тело письма:</label>
+      <textarea name="body" id="id_body" class="form-control" rows="4" required>{{ mailing_list.message.body }}</textarea>
+    </div>
+  <br>
+
+    <div class="form-group">
+      <label for="id_clients">Выберите клиентов:</label>
+      <select name="clients" id="id_clients" class="form-control" multiple required>
+        {% for client in clients %}
+          <option value="{{ client.id }}" {% if client in mailing_list.clients.all %}selected{% endif %}>{{ client.full_name }} ({{ client.email }})</option>
+        {% endfor %}
+      </select>
+    </div>
+  <br>
+
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+    <a href="{% url 'mailing_list_list' %}" class="btn btn-secondary">Отмена</a>
   </form>
-  <a href="{% url 'mailing_list_list' %}">Отмена</a>
 {% endblock %}

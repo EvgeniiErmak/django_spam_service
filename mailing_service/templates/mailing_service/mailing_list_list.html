@@ -7,5 +7,5 @@
       <li><a href="{% url 'mailing_list_detail' mailing_list.id %}">{{ mailing_list }}</a></li>
     {% endfor %}
   </ul>
-  <a href="{% url 'mailing_list_create' %}">Создать рассылку</a>
+  <li class="list-inline-item"><a class="p-2 btn btn-outline-primary" href="{% url 'mailing_list_create' %}">Создать рассылку</a></li>
 {% endblock %}
