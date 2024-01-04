@@ -13,7 +13,6 @@ urlpatterns = [
     path('mailing-lists/<int:mailing_list_id>/', MailingListUpdateView.as_view(), name='mailing_list_detail'),
     path('mailing-lists/<int:mailing_list_id>/update/', MailingListUpdateView.as_view(), name='mailing_list_update'),
     path('mailing-lists/<int:mailing_list_id>/delete/', MailingListDeleteView.as_view(), name='mailing_list_delete'),
-    path('mailing-lists/<int:mailing_list_id>/', MailingListDetailView.as_view(), name='mailing_list_detail'),
 
     path('', MailingListListView.as_view(), name='home'),
     path('logs/', LogListView.as_view(), name='log_list'),
