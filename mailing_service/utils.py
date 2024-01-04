@@ -1,6 +1,6 @@
 from django.core.mail import send_mail
 from django.utils import timezone
-from decouple import config  # Импорт из библиотеки python-decouple
+from decouple import config
 from .models import MailingList, Log
 
 
@@ -40,4 +40,3 @@ def send_scheduled_mailings(mailing_list_id):
             response=f"Ошибка при отправке рассылки: {str(e)}"
         )
         log.save()
-

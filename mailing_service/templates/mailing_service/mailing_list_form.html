@@ -2,10 +2,8 @@
 
 {% block content %}
   <h2>Форма рассылки</h2>
-
   <form method="post" action="{% if mailing_list.id %}{% url 'mailing_list_update' mailing_list.id %}{% else %}{% url 'mailing_list_create' %}{% endif %}" id="mailingListForm">
     {% csrf_token %}
-
     <div class="form-group">
       <label for="id_send_time">Время отправки:</label>
       <div class="input-group">
@@ -15,7 +13,6 @@
         </div>
       </div>
     </div>
-
     <div class="form-group">
       <label for="id_frequency">Частота:</label>
       <select name="frequency" id="id_frequency" class="form-control" required>
@@ -24,7 +21,6 @@
         <option value="monthly" {% if mailing_list.frequency == 'monthly' %}selected{% endif %}>Ежемесячно</option>
       </select>
     </div>
-
     <div class="form-group">
       <label for="id_status">Статус:</label>
       <select name="status" id="id_status" class="form-control" required>
@@ -33,22 +29,18 @@
         <option value="completed" {% if mailing_list.status == 'completed' %}selected{% endif %}>Завершено</option>
       </select>
     </div>
-
     <div class="form-group">
       <label for="id_subject">Тема письма:</label>
       <input type="text" name="subject" id="id_subject" class="form-control" value="{{ mailing_list.message.subject }}" required>
     </div>
-
     <div class="form-group">
       <label for="id_body">Тело письма:</label>
       <textarea name="body" id="id_body" class="form-control" rows="4" required>{{ mailing_list.message.body }}</textarea>
     </div>
-
     <div class="form-group">
       <label for="id_select_all_clients">Выбрать всех клиентов:</label>
       <input type="checkbox" name="select_all_clients" id="id_select_all_clients" class="form-check-input" {% if mailing_list.select_all_clients %}checked{% endif %}>
     </div>
-
     <div class="form-group">
       <label>Выберите клиентов:</label>
       {% for client in clients %}
@@ -59,22 +51,18 @@
       {% endfor %}
     </div>
     <br>
-
     <button type="submit" class="btn btn-primary">Сохранить</button>
     {% if mailing_list.id %}
       <a href="{% url 'mailing_list_delete' mailing_list.id %}" class="btn btn-danger">Удалить</a>
     {% endif %}
     <a href="{% url 'mailing_list_list' %}" class="btn btn-secondary">Отмена</a>
   </form>
-
   <script>
     const selectAllCheckbox = document.getElementById('id_select_all_clients');
     const clientsCheckboxes = document.querySelectorAll('[name="clients"]');
-
-    selectAllCheckbox.addEventListener('change', function () {
+    selectAllCheckbox.addEventListener('change', function() {
       const isChecked = selectAllCheckbox.checked;
-
-      clientsCheckboxes.forEach(function (checkbox) {
+      clientsCheckboxes.forEach(function(checkbox) {
         checkbox.checked = isChecked;
       });
     });
