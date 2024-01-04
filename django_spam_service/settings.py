@@ -145,11 +145,12 @@ SCHEDULER_API_ENABLED = True
 
 # Добавляем конфигурацию для django_apscheduler
 SCHEDULER_CONFIG = {
-    'apscheduler.timezone': 'UTC',
+    'apscheduler.timezone': 'Europe/Moscow',
 }
 
 # Настройки для отправки электронной почты
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_DEBUG = True
 EMAIL_HOST = 'smtp.gmail.com'  # SMTP-сервер Google
 EMAIL_PORT = 587  # Порт SMTP
 EMAIL_USE_TLS = True  # Использовать TLS
