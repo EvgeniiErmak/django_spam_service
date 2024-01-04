@@ -90,6 +90,13 @@ class MailingListCreateView(View):
                       {'form': form, 'clients': Client.objects.all()})
 
 
+class MailingListDetailView(View):
+    def get(self, request, mailing_list_id):
+        mailing_list = get_object_or_404(MailingList, id=mailing_list_id)
+        logs = Log.objects.filter(message__mailing_list=mailing_list).order_by('-attempt_time')
+        return render(request, 'mailing_service/mailing_list_detail.html', {'mailing_list': mailing_list, 'logs': logs})
+
+
 class MailingListUpdateView(View):
     def get(self, request, mailing_list_id):
         mailing_list = get_object_or_404(MailingList, id=mailing_list_id)
@@ -122,6 +129,14 @@ class MailingListDeleteView(View):
 
 
 class LogListView(View):
-    def get(self, request):
-        logs = Log.objects.all()
-        return render(request, 'mailing_service/log_list.html', {'logs': logs})
+    template_name = 'mailing_service/log_list.html'
+
+    def get(self, request, mailing_list_id=None):
+        if mailing_list_id:
+            # Обработка, если mailing_list_id передан
+            logs = Log.objects.filter(message__mailing_list_id=mailing_list_id).order_by('-attempt_time')
+        else:
+            # Обработка, если mailing_list_id не передан
+            logs = Log.objects.all().order_by('-attempt_time')
+
+        return render(request, self.template_name, {'logs': logs})

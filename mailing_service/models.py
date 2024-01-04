@@ -32,10 +32,15 @@ class Message(models.Model):
 
 
 class Log(models.Model):
-    message = models.ForeignKey(Message, on_delete=models.CASCADE)
-    attempt_time = models.DateTimeField()
-    status = models.CharField(max_length=20)
-    response = models.TextField()
+    mailing_list = models.ForeignKey(MailingList, on_delete=models.CASCADE, related_name='logs', verbose_name='Рассылка')
+    attempt_time = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время попытки')
+    status = models.CharField(max_length=255, verbose_name='Статус попытки')
+    response = models.TextField(blank=True, null=True, verbose_name='Ответ почтового сервера')
 
     def __str__(self):
         return f'Log {self.id}'
+
+    class Meta:
+        verbose_name = 'Лог'
+        verbose_name_plural = 'Логи'
+        ordering = ['-attempt_time']
