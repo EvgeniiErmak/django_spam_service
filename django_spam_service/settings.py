@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mailing_service',
-    'django_apscheduler',
+    'apscheduler',
 ]
 
 MIDDLEWARE = [
@@ -113,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru-ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -134,20 +134,6 @@ STATICFILES_DIRS = (
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# Настройки django-apscheduler
-SCHEDULER_JOB_DEFAULTS = {
-    'coalesce': False,
-    'max_instances': 3,
-}
-
-SCHEDULER_API_ENABLED = True
-
-
-# Добавляем конфигурацию для django_apscheduler
-SCHEDULER_CONFIG = {
-    'apscheduler.timezone': 'Europe/Moscow',
-}
-
 # Настройки для отправки электронной почты
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_DEBUG = True
@@ -156,3 +142,30 @@ EMAIL_PORT = 587  # Порт SMTP
 EMAIL_USE_TLS = True  # Использовать TLS
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')  # Ваша почта Gmail
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')  # Пароль вашей почты Gmail или пароль приложения
+
+# django_spam_service/settings.py
+
+APSCHEDULER = {
+    'jobs': [
+        {
+            'func': 'mailing_service.tasks.send_scheduled_mailings',
+            'trigger': 'interval',
+            'seconds': 10,  # Замените на ваш интервал
+        },
+    ],
+    'executors': [
+        {
+            'class': 'apscheduler.executors.pool:ThreadPoolExecutor',
+            'max_workers': '2',
+        },
+        {
+            'class': 'apscheduler.executors.pool:ProcessPoolExecutor',
+            'max_workers': '2',
+        },
+    ],
+    'job_defaults': {
+        'coalesce': False,
+        'max_instances': 3,
+    },
+    'timezone': 'Europe/Moscow',
+}

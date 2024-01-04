@@ -138,7 +138,6 @@ class LogListView(View):
         else:
             # Обработка, если mailing_list_id не передан
             logs = Log.objects.all().order_by('-attempt_time')
-
-        print(logs) # Добавьте эту строку для отладки
-
+            # Строка для отладки
+        print(logs)
         return render(request, self.template_name, {'logs': logs})
